@@ -1,7 +1,14 @@
 /**
  * -------- fs module ---------
  */
-const { fileReader,fileReadAsync } = require("./practice/basic/fs");
+const { fileReader,fileReadAsync,writeFile, writeFileAsync, appendToFile, appendFileSync, deleteFileAsync, deleteFileSync, readDirectory } = require("./practice/basic/fs");
 
 // fileReader()
-fileReadAsync()
+// fileReadAsync()
+// writeFile()
+// writeFileAsync()
+// appendToFile()
+// appendFileSync()
+// deleteFileAsync()
+// deleteFileSync()
+// readDirectory()
