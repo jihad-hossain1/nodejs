@@ -40,6 +40,16 @@ const writeFile = () => {
     return file;
 };
 
+// check file are exist or not
+function fileExistCheck(filePath) {
+    try {
+        fs.accessSync(filePath);
+        return true;
+    } catch (ex) {
+        return false;
+    }
+}
+
 // write file synchronous
 const writeFileAsync = () => {
     try {
@@ -71,29 +81,22 @@ const appendToFile = () => {
     return file;
 };
 
+const filePathForAppendFile = "./practice/basic/fs/file/write.txt";
 // append to file synchronous
-const appendFileSync = () => {
+const appendFileSync = (text) => {
+    const filePathExist = fileExistCheck(filePathForAppendFile);
     try {
-        const file = fs.appendFileSync(
-            writeFilePath,
-            "\nappend synchronous line",
-        );
-        console.log("append ok.");
-        return file;
+        if (filePathExist) {
+            const file = fs.appendFileSync(filePathForAppendFile, `\n${text}`);
+            console.log("append ok.");
+            return file;
+        } else {
+            console.log("file path are not exist!");
+        }
     } catch (error) {
         console.log("error on append file: ", error);
     }
 };
-
-// check file are exist or not
-function fileExistCheck(filePath) {
-    try {
-        fs.accessSync(filePath);
-        return true;
-    } catch (ex) {
-        return false;
-    }
-}
 
 // check directory folder are exist
 function directoryExist(dir) {
@@ -129,18 +132,35 @@ function createFolder() {
 
 // read file from folder
 const readDirectory = () => {
-    const isFolderPath = directoryExist(folderPath)
-    if(isFolderPath){
-        const readFilesInFolder = fs.readdir(folderPath,(err,files)=>{
-            if(err){
-                console.log('you got an error reading files', err)
+    const isFolderPath = directoryExist(folderPath);
+    if (isFolderPath) {
+        const readFilesInFolder = fs.readdir(folderPath, (err, files) => {
+            if (err) {
+                console.log("you got an error reading files", err);
                 return;
             }
-            console.log('your files ready: ',files)
-        })
-        return readFilesInFolder
+            console.log("your files ready: ", files);
+        });
+        return readFilesInFolder;
     } else {
-        console.log('folder path are not found.')
+        console.log("folder path are not found.");
+    }
+};
+
+// remove directory
+const removeDirectory = () => {
+    const isDirectoryExist = directoryExist(folderPath);
+
+    if (isDirectoryExist) {
+        fs.rmdir(folderPath, { recursive: true }, (err) => {
+            if (err) {
+                console.log("You got an Error remove directory: ", err);
+                return;
+            }
+            console.log("Directory remove done.");
+        });
+    } else {
+        console.log("Folder are not exist!");
     }
 };
 
@@ -175,7 +195,19 @@ const deleteFileSync = () => {
     }
 };
 
+const filePathForWatch = "./practice/basic/fs/file/write.txt";
+// watch file changes
+const watchFileChanged = () => {
+    const fi = fs.watch(filePathForWatch, (eventType, fileName) => {
+        if (fileName) {
+            console.log(
+                `File ${fileName} has ${eventType}`,
+            );
+        }
+    });
 
+    return fi;
+};
 
 module.exports = {
     fileReader,
@@ -189,4 +221,6 @@ module.exports = {
     readDirectory,
     createFolder,
     directoryExist,
+    removeDirectory,
+    watchFileChanged,
 };
