@@ -14,6 +14,8 @@ const {
     removeDirectory,
     watchFileChanged,
     createFolder,
+    manageFile,
+    copyFile,
 } = require("./practice/basic/fs");
 
 // fileReader()
@@ -29,4 +31,6 @@ const {
 // readDirectory()
 // removeDirectory()
 // createFolder()
-watchFileChanged()
+// watchFileChanged()
+//  manageFile()
+copyFile()

@@ -200,13 +200,40 @@ const filePathForWatch = "./practice/basic/fs/file/write.txt";
 const watchFileChanged = () => {
     const fi = fs.watch(filePathForWatch, (eventType, fileName) => {
         if (fileName) {
-            console.log(
-                `File ${fileName} has ${eventType}`,
-            );
+            console.log(`File ${fileName} has ${eventType}`);
         }
     });
 
     return fi;
+};
+
+const fsPromis = require("fs").promises;
+
+const manageFile = async () => {
+    try {
+        await fsPromis.writeFile(
+            filePathForWatch,
+            "useing promises! and more line added",
+        );
+        const data = await fsPromis.readFile(filePathForWatch, "utf-8");
+
+        console.log("file content", data);
+    } catch (error) {
+        console.error("Error: ", error);
+    }
+};
+
+const sd = '../../../public/w.txt'
+
+const copyFile = () => {
+    const copy = fs.copyFile(sd, '../../../public/fs', (err) => {
+        if (err) {
+            console.log("error copying file", err);
+            return;
+        }
+        console.log("file copied successfully");
+    });
+    return copy;
 };
 
 module.exports = {
@@ -223,4 +250,6 @@ module.exports = {
     directoryExist,
     removeDirectory,
     watchFileChanged,
+    manageFile,
+    copyFile,
 };
